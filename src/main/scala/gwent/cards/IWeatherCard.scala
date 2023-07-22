@@ -1,10 +1,10 @@
-package cl.uchile.dcc
-package gwent.cards
+package scala.gwent.cards
 
 /**
- * An interface representing a weather card in the Gwent game.
+ * A trait representing a weather card in a card game.
  *
- * This interface extends the `ICard` trait.
+ * This trait extends the `ICard` trait and represents weather cards in the card game.
+ * Weather cards are special cards that affect the game's board and have no specific effect on unity cards.
  */
 trait IWeatherCard extends ICard {
 

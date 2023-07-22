@@ -1,60 +1,34 @@
-package cl.uchile.dcc
-package gwent.cards
+package scala.gwent.cards
 
 import scala.collection.mutable
 
 /**
- * A deck of cards used in the Gwent game.
+ * TODO: Tarea -> Escribir una interfaz a esta clase
+ */
+
+import scala.collection.mutable
+
+/**
+ * A class representing a deck of cards in a card game.
  *
- * This class represents a deck of cards and manages its contents using a mutable Stack data structure.
- * It also provides functionality to observe and notify changes to the deck.
+ * This class provides a container to store cards using a mutable stack. Cards can be added to the deck using the `add` method.
+ *
+ * @constructor Creates a new instance of the `Deck` class with an empty container (mutable stack).
  */
 class Deck {
-  private val container: mutable.Stack[ICard] = mutable.Stack()
-  private val observers: mutable.ListBuffer[ICardObserver] = mutable.ListBuffer()
-
   /**
-   * Adds an observer to the deck.
-   *
-   * @param observer The observer to add.
+   * The container to store cards in the deck.
    */
-  def addObserver(observer: ICardObserver): Unit = {
-    observers += observer
-  }
+  val container: mutable.Stack[ICard] = mutable.Stack()
 
   /**
-   * Removes an observer from the deck.
+   * Adds a collection of cards to the deck.
    *
-   * @param observer The observer to remove.
-   */
-  def removeObserver(observer: ICardObserver): Unit = {
-    observers -= observer
-  }
-
-  /**
-   * Notifies all observers of a card update in the deck.
-   *
-   * @param card The card that was updated.
-   */
-  def notifyObservers(card: AbstractUnityCard): Unit = {
-    observers.foreach(_.update(card))
-  }
-
-  /**
-   * Adds a sequence of cards to the deck.
-   *
-   * @param seq The sequence of cards to add.
+   * @param seq The collection of cards to be added to the deck.
    */
   def add(seq: collection.Iterable[ICard]): Unit = {
-    container.pushAll(seq)
-  }
-
-  /**
-   * Picks a card from the top of the deck.
-   *
-   * @return The card picked from the deck.
-   */
-  def pickCard(): ICard = {
-    container.pop()
+    for (card <- seq) {
+      container.push(card)
+    }
   }
 }

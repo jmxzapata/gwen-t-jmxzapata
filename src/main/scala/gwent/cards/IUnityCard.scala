@@ -1,10 +1,24 @@
-package cl.uchile.dcc
-package gwent.cards
+package scala.gwent.cards
 
+/**
+ * A trait representing a unity card in a card game.
+ *
+ * This trait extends the `ICard` trait and adds additional properties specific to unity cards.
+ * Unity cards are cards in a card game that have a classification and a strength value.
+ */
 trait IUnityCard extends ICard {
-  /**
-   * The power value that represents the strength of the card.
+  /** Classification of the unity card.
+   *
+   * This property represents the classification of the unity card, which can be one of the three possible classifications.
+   * It is a read-only property that must be defined in concrete implementations of this trait.
    */
-  val power: Int
+  val classification: Classification
+
+  /** Strength value of the unity card.
+   *
+   * This property represents the strength value of the unity card in the card game.
+   * It is a read-only property that must be defined in concrete implementations of this trait.
+   */
+  val strength: Int
 }
 

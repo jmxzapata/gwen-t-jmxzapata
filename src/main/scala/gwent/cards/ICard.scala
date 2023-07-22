@@ -1,32 +1,23 @@
-package cl.uchile.dcc
-package gwent.cards
+package scala.gwent.cards
 
 /**
- * An interface representing a card in the Gwent game.
+ * A trait representing a card in a card game.
+ *
+ * This trait defines the basic properties of a card in a card game, such as its name and effect.
+ * Any class implementing this trait must provide concrete implementations for the `name` and `effect` properties.
  */
 trait ICard {
-  /**
-   * The name of the card.
+  /** Name of the card.
+   *
+   * This property represents the name or title of the card.
+   * It is a read-only property that must be defined in concrete implementations of this trait.
    */
   val name: String
 
-  /**
-   * The description of the card.
-   */
-  val description: String
-
-  /**
-   * Applies the morale boost effect to a deck of cards.
+  /** Effect of the card. Its special ability.
    *
-   * @param deck The deck of cards to apply the effect to.
+   * This property represents the special effect or ability of the card in the card game.
+   * It is a read-only property that must be defined in concrete implementations of this trait.
    */
-  def applyMoraleBoost(deck: List[ICard]): Unit
-
-  /**
-   * Applies the tight bond effect to a deck of cards.
-   *
-   * @param deck The deck of cards to apply the effect to.
-   */
-  def applyTightBond(deck: List[ICard]): Unit
+  val effect: String
 }
-
