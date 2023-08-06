@@ -1,4 +1,5 @@
 package scala.gwent.model.cards
+import scala.gwent.model.cards.unity.effects.{MoralBoostEffect, TightBondEffect}
 
 /**
  * A class representing a card in a card game.
@@ -38,4 +39,9 @@ class Card(name: String, description: String) extends AbstractCard(name, descrip
   override def strength: Int = {
     this.strength
   }
+
+  override def affectedByMoralBoostEffect(card: MoralBoostEffect): Unit = {}
+
+  override def affectedByTightBondEffect(card: TightBondEffect): Unit = {}
+  
 }

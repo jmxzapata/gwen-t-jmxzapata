@@ -21,10 +21,6 @@ class MoralBoostEffect extends AbstractEffectCard {
    * @param card The target card to which the effect is applied.
    */
   override def applyEffect(card: ICard): Unit = {
-    card match {
-      case unityCard: IUnityCard =>
-        unityCard.currentStrength = unityCard.currentStrength + 1
-      case _ =>
-    }
+    card.affectedByMoralBoostEffect(this)
   }
 }

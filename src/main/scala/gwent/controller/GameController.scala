@@ -2,6 +2,8 @@ package scala.gwent.controller
 
 import scala.collection.mutable.ListBuffer
 import scala.gwent.model.player.Player
+import scala.gwent.controller.state
+import scala.gwent.controller.state.{IState, InitGame}
 
 /**
  * The GameController class handles the game flow and logic.
@@ -79,4 +81,35 @@ class GameController {
       playRound()
     }
   }
+
+  
+  // ESTO ESCRIBI PARA EL METODO STATE//
+  
+  private var currentState: IState = _
+
+  // Método para cambiar el estado del juego
+  def changeState(newState: IState): Unit = {
+    currentState = newState
+    currentState.setContext(this)
+  }
+
+  def startGame(): Unit = {
+    // Comenzar el juego estableciendo el estado inicial (InitGame)
+    currentState = new InitGame()
+    currentState.setContext(this)
+
+    // Iniciar la recursión del juego
+    playGame()
+  }
+
+  private def playGame(): Unit = {
+    currentState.printInfo()
+    currentState.play()
+
+    // Verificar si el juego ha terminado (estado actual es null)
+    if (currentState != null) {
+      playGame() // Continuar la recursión con el siguiente estado
+    }
+  }
+
 }

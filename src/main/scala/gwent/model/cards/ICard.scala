@@ -1,6 +1,8 @@
 package scala.gwent.model.cards
 
 import scala.gwent.model.cards.weather.{BitingFrostEffect, ClearWeatherEffect, ImpenetrableFogEffect, TorrentialRainEffect}
+import scala.gwent.model.cards.unity.effects
+import scala.gwent.model.cards.unity.effects.{MoralBoostEffect, TightBondEffect}
 
 /**
 
@@ -54,6 +56,10 @@ trait ICard extends IObserverCard with ISubjectCard {
   @param card The Clear Weather weather card that affects this card.
    */
   def affectedByClearWeather(card: ClearWeatherEffect): Unit
+
+  def affectedByMoralBoostEffect(card: MoralBoostEffect): Unit
+
+  def affectedByTightBondEffect(card: TightBondEffect): Unit
   /**
 
   Updates the card with the data from another card.

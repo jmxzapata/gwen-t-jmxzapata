@@ -22,11 +22,6 @@ class TightBondEffect extends AbstractEffectCard {
    * @param card The target card to which the effect is applied.
    */
   override def applyEffect(card: ICard): Unit = {
-    card match {
-      case unityCard: IUnityCard =>
-        unityCard.currentStrength *= 2
-      case _ =>
-      // If the target card is not a Unity Card, the effect has no impact and does nothing.
-    }
+    card.affectedByTightBondEffect(this)
   }
 }

@@ -1,6 +1,6 @@
 package scala.gwent.model.cards.unity
 
-import scala.gwent.model.cards.unity.effects.IEffectCard
+import scala.gwent.model.cards.unity.effects.{IEffectCard, MoralBoostEffect, TightBondEffect}
 import scala.gwent.model.cards.{AbstractCard, ICard, IObserverCard}
 import scala.gwent.model.cards.weather.ClearWeatherEffect
 
@@ -80,6 +80,14 @@ abstract class AbstractUnityCard(
   override def affectedByClearWeather(wc: ClearWeatherEffect): Unit = {
     wc.addObserver(this)
     currentStrength = strength
+  }
+
+  override def affectedByMoralBoostEffect(card: MoralBoostEffect): Unit = {
+    currentStrength += 1
+  }
+
+  override def affectedByTightBondEffect(card: TightBondEffect): Unit = {
+    currentStrength *= 2
   }
 
 }
