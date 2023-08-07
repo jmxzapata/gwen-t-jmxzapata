@@ -5,6 +5,7 @@ import munit.FunSuite
 import scala.gwent.model.cards.{AbstractCard, ICard, IObserverCard, ISubjectCard}
 import munit.FunSuite
 
+import scala.gwent.model.cards.unity.effects.{MoralBoostEffect, TightBondEffect}
 import scala.gwent.model.cards.weather.{BitingFrostEffect, ClearWeatherEffect, ImpenetrableFogEffect, TorrentialRainEffect}
 
 class AbstractCardTest extends FunSuite {
@@ -13,6 +14,19 @@ class AbstractCardTest extends FunSuite {
     override def strength: Int = 0
 
     override def applyCardEffect(card: ICard): Unit = {}
+
+    override def affectedByBitingFrost(card: BitingFrostEffect): Unit = {}
+
+    override def affectedByImpenetrableFog(card: ImpenetrableFogEffect): Unit = {}
+
+    override def affectedByClearWeather(card: ClearWeatherEffect): Unit = {}
+
+    override def affectedByTorrentialRain(card: TorrentialRainEffect): Unit = {}
+    
+    override def affectedByMoralBoostEffect(card: MoralBoostEffect): Unit = {}
+
+    override def affectedByTightBondEffect(card: TightBondEffect): Unit = {}
+    override def update(card: ICard): Unit = {}
 
   }
 

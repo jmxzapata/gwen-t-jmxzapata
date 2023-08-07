@@ -1,9 +1,11 @@
 package scala.gwent.controller.state
 
 import scala.gwent.controller.GameController
+import scala.gwent.model.player.Player
 import scala.io.StdIn
+import scala.gwent.controller.state.CpuTurn
 
-class PlayerTurn extends IState {
+class PlayerTurn(player: Player, gameController: GameController) extends IState {
   private var context: GameController = _
 
   override def setContext(context: GameController): Unit = {
@@ -35,7 +37,20 @@ class PlayerTurn extends IState {
         // El jugador eligió pasar el turno
         println("Has pasado el turno.")
         // Cambiar al siguiente estado (CpuTurn)
-        context.changeState(new CpuTurn())
+        context.changeState(new CpuTurn(player, gameController))
     }
   }
+
+  // AQUI SE IMPLEMENTA OBSERVER //
+
+  // Método para notificar al GameController si el jugador actual ganó la partida
+  private def notifyPlayerWonGame(): Unit = {
+    gameController.playerWonGame(player)
+  }
+
+  // Método para notificar al GameController si el jugador actual perdió la partida
+  private def notifyPlayerLostGame(): Unit = {
+    gameController.playerLostGame(player)
+  }
+
 }

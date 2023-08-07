@@ -82,9 +82,9 @@ class GameController {
     }
   }
 
-  
-  // ESTO ESCRIBI PARA EL METODO STATE//
-  
+
+  // AQUI SE IMPLEMENTA EL METODO STATE//
+
   private var currentState: IState = _
 
   // Método para cambiar el estado del juego
@@ -110,6 +110,31 @@ class GameController {
     if (currentState != null) {
       playGame() // Continuar la recursión con el siguiente estado
     }
+  }
+
+  // AQUI SE IMPLEMENTA EL METODO OBSERVER //
+
+  // Lista de observadores interesados en el resultado del juego (jugadores)
+  private val players: ListBuffer[Player] = ListBuffer.empty[Player]
+
+  // Método para agregar jugadores (observadores) al controlador
+  def addPlayer(player: Player): Unit = {
+    players += player
+  }
+
+  // Método para eliminar jugadores (observadores) del controlador
+  def removePlayer(player: Player): Unit = {
+    players -= player
+  }
+
+  // Método para notificar al PlayerTurn que el jugador ganó la partida
+  def playerWonGame(player: Player): Unit = {
+    players.foreach(_.playerWonGame(player))
+  }
+
+  // Método para notificar al PlayerTurn que el jugador perdió la partida
+  def playerLostGame(player: Player): Unit = {
+    players.foreach(_.playerLostGame(player))
   }
 
 }
