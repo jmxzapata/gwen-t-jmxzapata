@@ -1,14 +1,8 @@
-package cl.uchile.dcc
-package gwent
-
-import gwent.board.RangedCombatZone
-
-import gwent.cards.ICard
-
+package scala.gwent
 
 @main
 def main(): Unit = {
-  println("Hello world!")
+  println("Este codigo compila!")
   val myList: List[Int] = List[Int](3, 5, 6)
-  val num = myList(0)
+  val num = myList.head
 }
