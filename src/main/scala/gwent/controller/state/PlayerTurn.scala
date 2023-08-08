@@ -4,53 +4,55 @@ import scala.gwent.controller.GameController
 import scala.gwent.model.player.Player
 import scala.io.StdIn
 import scala.gwent.controller.state.CpuTurn
+import scala.gwent.model.cards.Card
+import scala.gwent.model.cards.unity.{CloseCombatCard, RangedCombatCard, SiegeCombatCard}
+import scala.gwent.model.board.Board
 
-class PlayerTurn(player: Player, gameController: GameController) extends IState {
-  private var context: GameController = _
+/**
+ * Represents the player's turn state in the game GWENT.
+ *
+ * This class defines the behavior of the game when it's the player's turn. It provides methods for printing
+ * information about the state and for executing the gameplay logic associated with the player's turn.
+ *
+ * @param context The game controller managing the game state.
+ */
+class PlayerTurn(override val context: GameController) extends IState {
+  /**
+   * The player whose turn it is.
+   */
+  private val player: Player = this.context.player1
 
-  override def setContext(context: GameController): Unit = {
-    this.context = context
-  }
-
+  /**
+   * Prints information about the player's turn state.
+   */
   override def printInfo(): Unit = {
     println("Es el turno del jugador.")
   }
 
+  /**
+   * Executes the gameplay logic for the player's turn state.
+   */
   override def play(): Unit = {
-    // Realizar acciones específicas para el turno del jugador:
-
-    // 1. Imprimir opciones disponibles para el jugador
     println("Opciones:")
     println("1. Jugar una carta")
     println("2. Pasar el turno")
 
-    // 2. Obtener la elección del jugador
+    print("> ")
     val choice = StdIn.readInt()
 
-    // 3. Realizar acciones basadas en la elección del jugador
     choice match {
       case 1 =>
-        // El jugador eligió jugar una carta (implementa la lógica según las reglas del juego)
         println("Has elegido jugar una carta.")
-      // ... implementa la lógica para jugar una carta ...
+
+        println("Quitando una gema de forma manual...")
+        context.player2.loseGem()
+
+        if (context.observerGame.somePlayerLost()) {
+          context.changeState(new EndGame(context))
+        }
       case 2 =>
-        // El jugador eligió pasar el turno
         println("Has pasado el turno.")
-        // Cambiar al siguiente estado (CpuTurn)
-        context.changeState(new CpuTurn(player, gameController))
+        context.changeState(new CpuTurn(context))
     }
   }
-
-  // AQUI SE IMPLEMENTA OBSERVER //
-
-  // Método para notificar al GameController si el jugador actual ganó la partida
-  private def notifyPlayerWonGame(): Unit = {
-    gameController.playerWonGame(player)
-  }
-
-  // Método para notificar al GameController si el jugador actual perdió la partida
-  private def notifyPlayerLostGame(): Unit = {
-    gameController.playerLostGame(player)
-  }
-
 }

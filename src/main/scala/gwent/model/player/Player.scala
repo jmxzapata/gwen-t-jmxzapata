@@ -1,7 +1,7 @@
 package scala.gwent.model.player
 
 import scala.collection.mutable.ListBuffer
-import scala.gwent.controller.state.IObserverGame
+import scala.gwent.controller.IObserverGame
 import scala.gwent.model.board.{BoardSection, IGameComposite}
 import scala.gwent.model.cards.unity.{CloseCombatCard, RangedCombatCard, SiegeCombatCard}
 import scala.gwent.model.cards.weather.IWeatherCard
@@ -17,7 +17,9 @@ import scala.gwent.model.cards.{Deck, ICard, IObserverCard}
  *
  * @constructor Creates a new Player instance with the given name.
  */
-class Player(val name: String) extends IGameComposite with IObserverGame {
+class Player(
+              val name: String
+            ) extends IGameComposite with ISubjectGame {
 
   /** The board section where the player's cards are placed. */
   private var _boardSection: BoardSection = _
@@ -166,6 +168,7 @@ class Player(val name: String) extends IGameComposite with IObserverGame {
    */
   def loseGem(): Unit = {
     _gems -= 1
+    this.notifyObserver()
   }
 
   /**
@@ -173,7 +176,7 @@ class Player(val name: String) extends IGameComposite with IObserverGame {
    *
    * @return true if the player has no gems, false otherwise.
    */
-  def hasNoGems: Boolean = {
+  override def hasNoGems: Boolean = {
     _gems == 0
   }
 
@@ -190,30 +193,30 @@ class Player(val name: String) extends IGameComposite with IObserverGame {
     deck.spreadWeatherEffect(weatherCard)
     for (card <- hand) weatherCard.applyCardEffect(card)
   }
+  
 
+  private var observer: IObserverGame = _
 
-  //AQUI SE IMPLEMENTA OBSERVER//
-
-  // Método para notificar que el jugador ganó la partida
-  def notifyPlayerWonGame(): Unit = {
-    println(s"¡El jugador $name ganó la partida!")
+  /**
+   * Subscribes an observer to the player's notifications.
+   *
+   * The `subscribe` method allows an observer to subscribe to notifications from the player. Once subscribed, the observer
+   * will be notified about changes in the player's state.
+   *
+   * @param observer The observer to be subscribed.
+   */
+  override def suscribe(observer: IObserverGame): Unit = {
+    this.observer = observer
   }
 
-  // Método para notificar que el jugador perdió la partida
-  def notifyPlayerLostGame(): Unit = {
-    println(s"El jugador $name perdió la partida.")
-  }
-
-  // Implementación de la interfaz IObserverGame
-  override def playerWonGame(player: Player): Unit = {
-    if (this == player) {
-      notifyPlayerWonGame()
-    }
-  }
-  override def playerLostGame(player: Player): Unit = {
-    if (this == player) {
-      notifyPlayerLostGame()
-    }
+  /**
+   * Notifies the subscribed observer about a change in the player's state.
+   *
+   * The `notifyObserver` method triggers a notification to the observer that the player's state has changed. This method
+   * is typically called when the player's gem count is decreased.
+   */
+  override def notifyObserver(): Unit = {
+    this.observer.update(this)
   }
 
 }
